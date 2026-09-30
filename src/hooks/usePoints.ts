@@ -11,8 +11,6 @@ interface SupabasePoint {
   image_url: string | null;
   address: string | null;
   hours: string | null;
-  latitude: number | null;
-  longitude: number | null;
   google_place_id: string | null;
 }
 
@@ -26,82 +24,89 @@ export const usePoints = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
 
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const loadData = async () => {
-      try {
+  const loadData = useCallback(async (isRefresh = false) => {
+    try {
+      if (isRefresh) {
+        setRefreshing(true);
+      } else {
         setLoading(true);
-        setError(null);
-
-        const [pointsResponse, categoriesResponse] = await Promise.all([
-          supabase
-            .from('points_of_interest')
-            .select(`
-              id,
-              name,
-              category_id,
-              description,
-              image_url,
-              address,
-              hours,
-              latitude,
-              longitude,
-              google_place_id
-            `)
-            .eq('published', true)
-            .order('name'),
-
-          supabase
-            .from('categories')
-            .select('id, name')
-            .order('name'),
-        ]);
-
-        if (pointsResponse.error) {
-          throw pointsResponse.error;
-        }
-
-        if (categoriesResponse.error) {
-          throw categoriesResponse.error;
-        }
-
-        const formattedPoints: PointOfInterest[] = (
-          (pointsResponse.data ?? []) as SupabasePoint[]
-        ).map((point) => ({
-          id: String(point.id),
-          name: point.name,
-          category: point.category_id,
-          description: point.description,
-          image: point.image_url ?? '',
-          address: point.address ?? '',
-          hours: point.hours ?? '',
-          latitude: point.latitude ?? 0,
-          longitude: point.longitude ?? 0,
-          googlePlaceId: point.google_place_id ?? undefined,
-        }));
-
-        setPointsOfInterest(formattedPoints);
-
-        setCategories([
-          { id: 'all', name: 'Todos' },
-          ...(categoriesResponse.data ?? []),
-        ]);
-      } catch (err) {
-        console.error('Erro ao carregar dados do Supabase:', err);
-
-        setError(
-          err instanceof Error
-            ? err.message
-            : 'Não foi possível carregar os pontos turísticos.'
-        );
-      } finally {
-        setLoading(false);
       }
-    };
 
-    loadData();
+      setError(null);
+
+      const [pointsResponse, categoriesResponse] = await Promise.all([
+        supabase
+          .from('points_of_interest')
+          .select(`
+            id,
+            name,
+            category_id,
+            description,
+            image_url,
+            address,
+            hours,
+            google_place_id
+          `)
+          .eq('published', true)
+          .order('name'),
+
+        supabase
+          .from('categories')
+          .select('id, name')
+          .order('name'),
+      ]);
+
+      if (pointsResponse.error) {
+        throw pointsResponse.error;
+      }
+
+      if (categoriesResponse.error) {
+        throw categoriesResponse.error;
+      }
+
+      const formattedPoints: PointOfInterest[] = (
+        (pointsResponse.data ?? []) as SupabasePoint[]
+      ).map((point) => ({
+        id: String(point.id),
+        name: point.name,
+        category: point.category_id,
+        description: point.description,
+        image: point.image_url ?? '',
+        address: point.address ?? '',
+        hours: point.hours ?? '',
+        googlePlaceId: point.google_place_id ?? undefined,
+      }));
+
+      setPointsOfInterest(formattedPoints);
+
+      setCategories([
+        { id: 'all', name: 'Todos' },
+        ...(categoriesResponse.data ?? []),
+      ]);
+    } catch (err) {
+      console.error('Erro ao carregar dados do Supabase:', err);
+
+      setError(
+        err instanceof Error
+          ? err.message
+          : 'Não foi possível carregar os pontos turísticos.'
+      );
+    } finally {
+      setLoading(false);
+      setRefreshing(false);
+    }
   }, []);
+
+  useEffect(() => {
+    loadData();
+  }, [loadData]);
+
+  const refresh = useCallback(async () => {
+    await loadData(true);
+  }, [loadData]);
 
   const filteredPoints = useMemo(() => {
     return pointsOfInterest.filter((point) => {
@@ -133,7 +138,9 @@ export const usePoints = () => {
     searchText,
     selectedCategory,
     loading,
+    refreshing,
     error,
+    refresh,
     handleSearch,
     handleCategoryChange,
   };

@@ -161,39 +161,29 @@ export default function EventDetailsScreen() {
   }, [event?.image]);
 
   const openMaps = async () => {
-    if (!event) return;
+  if (!event) return;
 
-    const query = encodeURIComponent(
-      event.locationName || event.name
-    );
+  const locationQuery = encodeURIComponent(
+    event.locationName || event.name
+  );
 
-    if (event.googlePlaceId) {
-      await Linking.openURL(
-        `https://www.google.com/maps/search/?api=1&query=${query}&query_place_id=${event.googlePlaceId}`
-      );
-
-      return;
-    }
-
-    if (
-      event.latitude !== undefined &&
-      event.longitude !== undefined
-    ) {
-      await Linking.openURL(
-        `https://www.google.com/maps/search/?api=1&query=${event.latitude},${event.longitude}`
-      );
-
-      return;
-    }
-
-    const addressQuery = encodeURIComponent(
-      `${event.locationName}, ${event.address}, Teresina - PI`
-    );
-
+  if (event.googlePlaceId) {
     await Linking.openURL(
-      `https://www.google.com/maps/search/?api=1&query=${addressQuery}`
+      `https://www.google.com/maps/search/?api=1&query=${locationQuery}&query_place_id=${event.googlePlaceId}`
     );
-  };
+    return;
+  }
+
+  const addressQuery = encodeURIComponent(
+    [event.locationName, event.address, 'Teresina - PI']
+      .filter(Boolean)
+      .join(', ')
+  );
+
+  await Linking.openURL(
+    `https://www.google.com/maps/search/?api=1&query=${addressQuery}`
+  );
+};
 
   const openTicket = async () => {
     if (!event?.ticketUrl) return;
@@ -456,15 +446,13 @@ export default function EventDetailsScreen() {
             </Text>
 
             {(event.locationName ||
-              event.address ||
-              event.googlePlaceId ||
-              (event.latitude !== undefined &&
-                event.longitude !== undefined)) ? (
-              <TouchableOpacity
-                style={styles.mapButton}
-                onPress={openMaps}
-                activeOpacity={0.85}
-              >
+  event.address ||
+  event.googlePlaceId) ? (
+  <TouchableOpacity
+    style={styles.mapButton}
+    onPress={openMaps}
+    activeOpacity={0.85}
+  >
                 <View style={styles.buttonIcon}>
                   <Ionicons
                     name="navigate"

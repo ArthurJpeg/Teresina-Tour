@@ -8,9 +8,6 @@ export interface PointOfInterest {
   address: string;
   hours: string;
 
-  latitude: number;
-  longitude: number;
-
   googlePlaceId?: string;
   googleMapsUrl?: string;
 

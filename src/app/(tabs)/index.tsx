@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useRef } from 'react';
 import {
   View,
   Text,
@@ -8,7 +8,7 @@ import {
   StyleSheet,
   ActivityIndicator,
 } from 'react-native';
-import { router } from 'expo-router';
+import { router, useScrollToTop } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 
 import { PointOfInterest } from '../../types';
@@ -17,13 +17,19 @@ import Header from '../../components/Header';
 import { usePoints } from '../../hooks/usePoints';
 
 export default function HomeScreen() {
+  const listRef = useRef<FlatList<PointOfInterest>>(null);
+
+  useScrollToTop(listRef);
+
   const {
     points,
     categories,
     searchText,
     selectedCategory,
     loading,
+    refreshing,
     error,
+    refresh,
     handleSearch,
     handleCategoryChange,
   } = usePoints();
@@ -38,92 +44,98 @@ export default function HomeScreen() {
     []
   );
 
-  const renderHeader = () => (
-    <>
-      <Header />
-
-      <View style={styles.discoveryArea}>
-        <View style={styles.searchContainer}>
-          <Ionicons
-            name="search-outline"
-            size={21}
-            color="#777777"
-          />
-
-          <TextInput
-            style={styles.searchInput}
-            placeholder="Buscar lugares em Teresina"
-            placeholderTextColor="#999999"
-            value={searchText}
-            onChangeText={handleSearch}
-            returnKeyType="search"
-          />
-
-          {searchText.length > 0 && (
-            <TouchableOpacity
-              onPress={() => handleSearch('')}
-              style={styles.clearButton}
-              hitSlop={8}
-            >
-              <Ionicons
-                name="close-circle"
-                size={20}
-                color="#999999"
-              />
-            </TouchableOpacity>
-          )}
-        </View>
-
-        <FlatList
-          horizontal
-          data={categories}
-          keyExtractor={(item) => item.id}
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.categoriesContent}
-          renderItem={({ item }) => {
-            const selected =
-              selectedCategory === item.id;
-
-            return (
-              <TouchableOpacity
-                style={[
-                  styles.categoryButton,
-                  selected && styles.categoryButtonSelected,
-                ]}
-                activeOpacity={0.8}
-                onPress={() =>
-                  handleCategoryChange(item.id)
-                }
-              >
-                <Text
-                  style={[
-                    styles.categoryText,
-                    selected &&
-                      styles.categoryTextSelected,
-                  ]}
-                >
-                  {item.name}
-                </Text>
-              </TouchableOpacity>
-            );
-          }}
+  /*
+   * IMPORTANTE:
+   * O conteúdo do cabeçalho da lista é passado como elemento JSX
+   * estável, e não como uma função criada novamente a cada render.
+   *
+   * Isso evita que o TextInput seja desmontado/remontado durante
+   * a digitação e, consequentemente, evita que o teclado feche.
+   */
+  const listHeader = (
+    <View style={styles.discoveryArea}>
+      <View style={styles.searchContainer}>
+        <Ionicons
+          name="search-outline"
+          size={21}
+          color="#777777"
         />
 
-        <View style={styles.sectionHeader}>
-          <View>
-            <Text style={styles.sectionTitle}>
-              Explore Teresina
-            </Text>
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Buscar lugares em Teresina"
+          placeholderTextColor="#999999"
+          value={searchText}
+          onChangeText={handleSearch}
+          returnKeyType="search"
+        />
 
-            <Text style={styles.sectionSubtitle}>
-              {points.length === 1
-                ? '1 lugar encontrado'
-                : `${points.length} lugares encontrados`}
-            </Text>
-          </View>
+        {searchText.length > 0 && (
+          <TouchableOpacity
+            onPress={() => handleSearch('')}
+            style={styles.clearButton}
+            hitSlop={8}
+          >
+            <Ionicons
+              name="close-circle"
+              size={20}
+              color="#999999"
+            />
+          </TouchableOpacity>
+        )}
+      </View>
+
+      <FlatList
+        horizontal
+        data={categories}
+        keyExtractor={(item) => item.id}
+        showsHorizontalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
+        contentContainerStyle={styles.categoriesContent}
+        renderItem={({ item }) => {
+          const selected =
+            selectedCategory === item.id;
+
+          return (
+            <TouchableOpacity
+              style={[
+                styles.categoryButton,
+                selected &&
+                  styles.categoryButtonSelected,
+              ]}
+              activeOpacity={0.8}
+              onPress={() =>
+                handleCategoryChange(item.id)
+              }
+            >
+              <Text
+                style={[
+                  styles.categoryText,
+                  selected &&
+                    styles.categoryTextSelected,
+                ]}
+              >
+                {item.name}
+              </Text>
+            </TouchableOpacity>
+          );
+        }}
+      />
+
+      <View style={styles.sectionHeader}>
+        <View>
+          <Text style={styles.sectionTitle}>
+            Explore Teresina
+          </Text>
+
+          <Text style={styles.sectionSubtitle}>
+            {points.length === 1
+              ? '1 lugar encontrado'
+              : `${points.length} lugares encontrados`}
+          </Text>
         </View>
       </View>
-    </>
+    </View>
   );
 
   if (loading) {
@@ -177,7 +189,11 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.screen}>
+      {/* Fica fixo durante a rolagem e o pull-to-refresh */}
+      <Header />
+
       <FlatList
+        ref={listRef}
         data={points}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
@@ -186,7 +202,13 @@ export default function HomeScreen() {
             onPress={handlePointPress}
           />
         )}
-        ListHeaderComponent={renderHeader()}
+
+        /*
+         * Passamos o ELEMENTO, não a função.
+         * Isso é importante para preservar o foco do TextInput.
+         */
+        ListHeaderComponent={listHeader}
+
         ListEmptyComponent={
           <View style={styles.emptyState}>
             <View style={styles.stateIcon}>
@@ -207,8 +229,18 @@ export default function HomeScreen() {
             </Text>
           </View>
         }
+
+        refreshing={refreshing}
+        onRefresh={refresh}
+
         showsVerticalScrollIndicator={false}
+
+        /*
+         * Impede que interações com a lista fechem
+         * desnecessariamente o teclado.
+         */
         keyboardShouldPersistTaps="handled"
+
         contentContainerStyle={styles.listContent}
       />
     </View>

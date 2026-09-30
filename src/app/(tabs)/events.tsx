@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useRef } from 'react';
 import {
   View,
   Text,
@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { router } from 'expo-router';
+import { router, useScrollToTop } from 'expo-router';
 
 import { Event, useEvents } from '../../hooks/useEvents';
 
@@ -259,11 +259,17 @@ const EventCard = React.memo(({ event }: EventCardProps) => {
 });
 
 export default function EventsScreen() {
+  const listRef = useRef<FlatList<Event>>(null);
+
+  useScrollToTop(listRef);
+
   const {
     events,
     searchText,
     loading,
+    refreshing,
     error,
+    refresh,
     handleSearch,
     clearSearch,
     reload,
@@ -383,7 +389,7 @@ export default function EventsScreen() {
 
             <TouchableOpacity
               style={styles.retryButton}
-              onPress={reload}
+              onPress={() => reload()}
               activeOpacity={0.8}
             >
               <Text style={styles.retryButtonText}>
@@ -393,12 +399,15 @@ export default function EventsScreen() {
           </View>
         ) : (
           <FlatList
+            ref={listRef}
             data={events}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
               <EventCard event={item} />
             )}
             ListHeaderComponent={listHeader}
+            refreshing={refreshing}
+            onRefresh={refresh}
             showsVerticalScrollIndicator={false}
             keyboardShouldPersistTaps="handled"
             contentContainerStyle={styles.listContent}

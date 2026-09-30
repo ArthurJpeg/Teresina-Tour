@@ -8,8 +8,6 @@ export interface Event {
   image: string;
   locationName: string;
   address: string;
-  latitude?: number;
-  longitude?: number;
   googlePlaceId?: string;
   startAt: string;
   endAt?: string;
@@ -24,8 +22,6 @@ interface SupabaseEvent {
   image_url: string | null;
   location_name: string | null;
   address: string | null;
-  latitude: number | null;
-  longitude: number | null;
   google_place_id: string | null;
   start_at: string;
   end_at: string | null;
@@ -37,11 +33,17 @@ export function useEvents() {
   const [events, setEvents] = useState<Event[]>([]);
   const [searchText, setSearchText] = useState('');
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const loadEvents = useCallback(async () => {
+  const loadEvents = useCallback(async (isRefresh = false) => {
     try {
-      setLoading(true);
+      if (isRefresh) {
+        setRefreshing(true);
+      } else {
+        setLoading(true);
+      }
+
       setError(null);
 
       const { data, error: supabaseError } = await supabase
@@ -53,8 +55,6 @@ export function useEvents() {
           image_url,
           location_name,
           address,
-          latitude,
-          longitude,
           google_place_id,
           start_at,
           end_at,
@@ -77,8 +77,6 @@ export function useEvents() {
         image: event.image_url ?? '',
         locationName: event.location_name ?? '',
         address: event.address ?? '',
-        latitude: event.latitude ?? undefined,
-        longitude: event.longitude ?? undefined,
         googlePlaceId: event.google_place_id ?? undefined,
         startAt: event.start_at,
         endAt: event.end_at ?? undefined,
@@ -97,11 +95,16 @@ export function useEvents() {
       );
     } finally {
       setLoading(false);
+      setRefreshing(false);
     }
   }, []);
 
   useEffect(() => {
     loadEvents();
+  }, [loadEvents]);
+
+  const refresh = useCallback(async () => {
+    await loadEvents(true);
   }, [loadEvents]);
 
   /*
@@ -156,7 +159,9 @@ export function useEvents() {
     events: filteredEvents,
     searchText,
     loading,
+    refreshing,
     error,
+    refresh,
     handleSearch,
     clearSearch,
     reload: loadEvents,

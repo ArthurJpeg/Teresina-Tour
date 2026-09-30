@@ -11,7 +11,7 @@ import {
   StyleSheet,
   ActivityIndicator,
 } from 'react-native';
-import { router } from 'expo-router';
+import { router, useScrollToTop } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -28,26 +28,31 @@ interface SupabasePoint {
   image_url: string | null;
   address: string | null;
   hours: string | null;
-  latitude: number | null;
-  longitude: number | null;
   google_place_id: string | null;
 }
 
 export default function FavoritesScreen() {
+  const listRef = useRef<FlatList<PointOfInterest>>(null);
+
+  useScrollToTop(listRef);
+
   const { favorites } = useFavorites();
 
   const [points, setPoints] = useState<PointOfInterest[]>([]);
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   // Controla apenas o loading da primeira carga.
   // Alterações posteriores nos favoritos não fazem a tela piscar.
   const hasLoaded = useRef(false);
 
-  useEffect(() => {
-    const loadFavorites = async () => {
+  const loadFavorites = useCallback(
+    async (isRefresh = false) => {
       try {
-        if (!hasLoaded.current) {
+        if (isRefresh) {
+          setRefreshing(true);
+        } else if (!hasLoaded.current) {
           setLoading(true);
         }
 
@@ -72,8 +77,6 @@ export default function FavoritesScreen() {
             image_url,
             address,
             hours,
-            latitude,
-            longitude,
             google_place_id
           `)
           .in('id', favoriteIds)
@@ -94,8 +97,6 @@ export default function FavoritesScreen() {
           image: point.image_url ?? '',
           address: point.address ?? '',
           hours: point.hours ?? '',
-          latitude: point.latitude ?? 0,
-          longitude: point.longitude ?? 0,
           googlePlaceId: point.google_place_id ?? undefined,
         }));
 
@@ -110,12 +111,20 @@ export default function FavoritesScreen() {
         );
       } finally {
         setLoading(false);
+        setRefreshing(false);
         hasLoaded.current = true;
       }
-    };
+    },
+    [favorites]
+  );
 
+  useEffect(() => {
     loadFavorites();
-  }, [favorites]);
+  }, [loadFavorites]);
+
+  const handleRefresh = useCallback(async () => {
+    await loadFavorites(true);
+  }, [loadFavorites]);
 
   const handlePointPress = useCallback(
     (point: PointOfInterest) => {
@@ -157,8 +166,8 @@ export default function FavoritesScreen() {
             {favorites.length === 0
               ? 'Seus lugares preferidos aparecerão aqui'
               : favorites.length === 1
-                ? '1 lugar salvo para conhecer'
-                : `${favorites.length} lugares salvos para conhecer`}
+                ? '1 Lugar salvo para conhecer'
+                : `${favorites.length} Lugares salvos para conhecer`}
           </Text>
         </View>
 
@@ -193,6 +202,7 @@ export default function FavoritesScreen() {
           </View>
         ) : (
           <FlatList
+            ref={listRef}
             data={visiblePoints}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
@@ -201,6 +211,8 @@ export default function FavoritesScreen() {
                 onPress={handlePointPress}
               />
             )}
+            refreshing={refreshing}
+            onRefresh={handleRefresh}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={[
               styles.listContent,

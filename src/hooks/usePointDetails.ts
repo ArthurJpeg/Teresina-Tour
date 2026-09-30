@@ -11,8 +11,6 @@ interface SupabasePoint {
   image_url: string | null;
   address: string | null;
   hours: string | null;
-  latitude: number | null;
-  longitude: number | null;
   google_place_id: string | null;
 }
 
@@ -37,8 +35,6 @@ export const usePointDetails = (pointId: string) => {
             image_url,
             address,
             hours,
-            latitude,
-            longitude,
             google_place_id
           `)
           .eq('id', pointId)
@@ -59,8 +55,6 @@ export const usePointDetails = (pointId: string) => {
           image: result.image_url ?? '',
           address: result.address ?? '',
           hours: result.hours ?? '',
-          latitude: result.latitude ?? 0,
-          longitude: result.longitude ?? 0,
           googlePlaceId: result.google_place_id ?? undefined,
         };
 

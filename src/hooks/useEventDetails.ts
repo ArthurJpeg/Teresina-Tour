@@ -9,8 +9,6 @@ interface SupabaseEvent {
   image_url: string | null;
   location_name: string | null;
   address: string | null;
-  latitude: number | null;
-  longitude: number | null;
   google_place_id: string | null;
   start_at: string;
   end_at: string | null;
@@ -44,8 +42,6 @@ export function useEventDetails(id?: string) {
             image_url,
             location_name,
             address,
-            latitude,
-            longitude,
             google_place_id,
             start_at,
             end_at,
@@ -69,8 +65,6 @@ export function useEventDetails(id?: string) {
           image: result.image_url ?? '',
           locationName: result.location_name ?? '',
           address: result.address ?? '',
-          latitude: result.latitude ?? undefined,
-          longitude: result.longitude ?? undefined,
           googlePlaceId: result.google_place_id ?? undefined,
           startAt: result.start_at,
           endAt: result.end_at ?? undefined,

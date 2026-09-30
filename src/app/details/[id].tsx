@@ -112,37 +112,17 @@ export default function DetailsScreen() {
   }, [point?.image]);
 
   const openMaps = async () => {
-    if (!point) return;
+  if (!point?.googlePlaceId) {
+    console.warn('Google Place ID não informado para este ponto turístico.');
+    return;
+  }
 
-    if (googleDetails?.googleMapsUri) {
-      await Linking.openURL(googleDetails.googleMapsUri);
-      return;
-    }
+  const query = encodeURIComponent(point.name);
 
-    const query = encodeURIComponent(point.name);
-
-    if (point.googlePlaceId) {
-      await Linking.openURL(
-        `https://www.google.com/maps/search/?api=1&query=${query}&query_place_id=${point.googlePlaceId}`
-      );
-      return;
-    }
-
-    if (point.latitude && point.longitude) {
-      await Linking.openURL(
-        `https://www.google.com/maps/search/?api=1&query=${point.latitude},${point.longitude}`
-      );
-      return;
-    }
-
-    const addressQuery = encodeURIComponent(
-      `${point.name}, ${point.address}`
-    );
-
-    await Linking.openURL(
-      `https://www.google.com/maps/search/?api=1&query=${addressQuery}`
-    );
-  };
+  await Linking.openURL(
+    `https://www.google.com/maps/search/?api=1&query=${query}&query_place_id=${point.googlePlaceId}`
+  );
+};
 
   if (pointLoading) {
     return (
