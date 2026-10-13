@@ -7,74 +7,425 @@
   <meta name="theme-color" content="#FFD700" />
   <title>Política de Privacidade | Teresina Tour</title>
   <style>
-    :root { color-scheme: light; --yellow:#FFD700; --ink:#18202b; --muted:#56616f; --line:#e7e9ec; }
-    * { box-sizing:border-box; }
-    body { margin:0; font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif; background:#f7f8fa; color:var(--ink); line-height:1.75; }
-    header { background:var(--yellow); padding:52px 20px 45px; border-bottom:4px solid #e8c400; }
-    .wrap { max-width:840px; margin:auto; }
-    .brand { display:inline-flex; align-items:center; gap:14px; font-size:18px; font-weight:800; letter-spacing:.03em; }
-    .brand-logo { width:64px; height:64px; border-radius:16px; object-fit:cover; box-shadow:0 4px 14px rgba(0,0,0,.12); }
-    h1 { font-size:clamp(30px,5vw,43px); line-height:1.15; letter-spacing:-.035em; margin:24px 0 12px; }
-    .intro { max-width:640px; margin:0; color:#30343b; font-size:17px; }
-    main { margin:-12px auto 48px; padding:0 20px; }
-    article { background:white; border:1px solid var(--line); border-radius:20px; padding:clamp(24px,5vw,48px); box-shadow:0 12px 40px rgba(17,24,39,.05); }
-    .updated { display:inline-block; font-size:13px; font-weight:700; background:#fff7cf; border-radius:999px; padding:6px 12px; margin-bottom:12px; }
-    h2 { font-size:20px; line-height:1.3; margin:32px 0 10px; }
-    p { margin:10px 0 16px; }
-    ul { padding-left:24px; }
-    li { margin:7px 0; }
-    a { color:#7a5900; text-underline-offset:3px; overflow-wrap:anywhere; }
-    .contact { background:#fff9df; border:1px solid #f1df91; border-radius:14px; padding:18px 22px; margin-top:18px; }
-    footer { text-align:center; padding:0 20px 36px; color:var(--muted); font-size:13px; }
-    @media (max-width:600px) { header { padding-top:36px; } article { border-radius:16px; } }
+    :root {
+      color-scheme: light;
+      --yellow: #FFD700;
+      --ink: #18202b;
+      --muted: #56616f;
+      --line: #e7e9ec;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      background: #f7f8fa;
+      color: var(--ink);
+      line-height: 1.75;
+    }
+
+    header {
+      background: var(--yellow);
+      padding: 52px 20px 45px;
+      border-bottom: 4px solid #e8c400;
+    }
+
+    .wrap {
+      max-width: 840px;
+      margin: auto;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: .03em;
+    }
+
+    .brand-logo {
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
+      object-fit: cover;
+      box-shadow: 0 4px 14px rgba(0,0,0,.12);
+    }
+
+    h1 {
+      font-size: clamp(30px, 5vw, 43px);
+      line-height: 1.15;
+      letter-spacing: -.035em;
+      margin: 24px 0 12px;
+    }
+
+    .intro {
+      max-width: 640px;
+      margin: 0;
+      color: #30343b;
+      font-size: 17px;
+    }
+
+    main {
+      margin: -12px auto 48px;
+      padding: 0 20px;
+    }
+
+    article {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: clamp(24px, 5vw, 48px);
+      box-shadow: 0 12px 40px rgba(17,24,39,.05);
+    }
+
+    .updated {
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 700;
+      background: #fff7cf;
+      border-radius: 999px;
+      padding: 6px 12px;
+      margin-bottom: 12px;
+    }
+
+    h2 {
+      font-size: 20px;
+      line-height: 1.3;
+      margin: 32px 0 10px;
+    }
+
+    p { margin: 10px 0 16px; }
+
+    ul { padding-left: 24px; }
+
+    li { margin: 7px 0; }
+
+    a {
+      color: #7a5900;
+      text-underline-offset: 3px;
+      overflow-wrap: anywhere;
+    }
+
+    .contact {
+      background: #fff9df;
+      border: 1px solid #f1df91;
+      border-radius: 14px;
+      padding: 18px 22px;
+      margin-top: 18px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 0 20px 36px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 600px) {
+      header { padding-top: 36px; }
+      article { border-radius: 16px; }
+    }
   </style>
 </head>
+
 <body>
   <header>
     <div class="wrap">
-      <div class="brand"><img class="brand-logo" src="logo-teresina-tour.png" alt="Logo do Teresina Tour" width="64" height="64" /> TERESINA TOUR</div>
+      <div class="brand">
+        <img
+          class="brand-logo"
+          src="logo-teresina-tour.png"
+          alt="Logo do Teresina Tour"
+          width="64"
+          height="64"
+        />
+        TERESINA TOUR
+      </div>
+
       <h1>Política de Privacidade</h1>
-      <p class="intro">Saiba como o Teresina Tour utiliza informações para apresentar os pontos turísticos e eventos de Teresina.</p>
+
+      <p class="intro">
+        Saiba como o Teresina Tour utiliza informações
+        para apresentar os pontos turísticos e eventos
+        de Teresina.
+      </p>
     </div>
   </header>
+
   <main class="wrap">
     <article>
-      <span class="updated">Última atualização: 13 de outubro de 2026</span>
+      <span class="updated">
+        Última atualização: 13 de outubro de 2026
+      </span>
+
       <h2>1. Sobre o aplicativo</h2>
-      <p>O Teresina Tour é um aplicativo para Android, desenvolvido como projeto de extensão universitária, que reúne informações sobre pontos turísticos, culturais, históricos, ambientais e eventos de Teresina, Piauí.</p>
-      <p>Esta política descreve o uso de informações no aplicativo e as integrações com serviços externos.</p>
+
+      <p>
+        O Teresina Tour é um aplicativo para Android,
+        desenvolvido como projeto de extensão universitária
+        do curso de Ciência da Computação da UNINASSAU.
+        O aplicativo reúne informações sobre pontos
+        turísticos, culturais, históricos, ambientais
+        e eventos de Teresina, Piauí.
+      </p>
+
+      <p>
+        Trata-se de uma iniciativa acadêmica independente,
+        sem vínculo oficial com órgãos governamentais.
+      </p>
+
+      <p>
+        Esta política explica como as informações são
+        utilizadas pelo aplicativo e por suas integrações
+        com serviços externos.
+      </p>
+
       <h2>2. Informações utilizadas</h2>
-      <p>O aplicativo não exige cadastro ou login para consultar pontos turísticos e eventos. Nas funcionalidades analisadas, não é solicitado o fornecimento de nome, e-mail ou localização GPS para visualizar os conteúdos.</p>
-      <p>Para funcionar, o aplicativo se comunica com serviços externos, que podem processar informações técnicas da conexão, como endereço IP, dados da solicitação e informações do dispositivo, de acordo com suas próprias práticas.</p>
+
+      <p>
+        O Teresina Tour não exige cadastro ou login para
+        consultar pontos turísticos e eventos.
+        O aplicativo não solicita nome, e-mail ou outros
+        dados de identificação pessoal para acessar
+        suas funcionalidades principais.
+      </p>
+
+      <p>
+        O aplicativo não solicita permissão de acesso
+        à localização GPS, não acompanha os deslocamentos
+        do usuário e não utiliza sua localização precisa
+        para apresentar os conteúdos turísticos.
+      </p>
+
+      <p>
+        Entretanto, para disponibilizar informações e
+        imagens, o aplicativo realiza comunicações com
+        serviços externos pela internet.
+        Durante essas comunicações, os fornecedores
+        de infraestrutura podem processar dados técnicos,
+        como endereço IP, informações sobre a solicitação,
+        navegador ou dispositivo e registros de acesso.
+      </p>
+
+      <p>
+        Dependendo das práticas e configurações desses
+        fornecedores, o endereço IP pode permitir
+        estimar uma localização geográfica aproximada,
+        como cidade ou região. Isso é diferente de
+        acessar a localização precisa por GPS.
+      </p>
+
       <h2>3. Favoritos no dispositivo</h2>
-      <p>Ao marcar um ponto turístico como favorito, o aplicativo salva o identificador desse local no armazenamento local do aparelho, por meio da tecnologia AsyncStorage. Essa funcionalidade permite manter a seleção após fechar o aplicativo.</p>
-      <p>Na implementação atual analisada, a lista de favoritos não é enviada ao banco de dados do Teresina Tour. O usuário pode retirar itens dos favoritos pelo próprio aplicativo. Os dados locais também podem ser eliminados por meio dos recursos de limpeza de dados do sistema operacional.</p>
+
+      <p>
+        Ao marcar um ponto turístico como favorito,
+        o aplicativo armazena localmente o identificador
+        do lugar por meio da tecnologia AsyncStorage.
+        Isso permite manter a seleção mesmo depois
+        de fechar o aplicativo.
+      </p>
+
+      <p>
+        Na implementação atual, a lista de favoritos
+        não é enviada ao banco de dados do Teresina Tour.
+        O usuário pode remover lugares dos favoritos
+        diretamente pelo aplicativo.
+      </p>
+
+      <p>
+        Os dados locais também podem ser eliminados
+        utilizando os recursos de limpeza de dados
+        do sistema operacional ou outros mecanismos
+        disponibilizados pelo dispositivo.
+      </p>
+
       <h2>4. Serviços externos</h2>
+
       <ul>
-        <li><strong>Supabase:</strong> fornece dados, imagens e informações sobre os pontos turísticos e eventos. Uma Supabase Edge Function também é utilizada como intermediária para consultas sobre locais.</li>
-        <li><strong>Google Places API:</strong> é utilizada para obter informações públicas de locais, como avaliação e quantidade de avaliações. A consulta analisada envia o identificador público do local (<code>placeId</code>) à Edge Function, e não o nome ou e-mail do usuário no corpo da solicitação.</li>
-        <li><strong>Google Maps:</strong> pode ser aberto por escolha do usuário, fora do Teresina Tour, para consultar um local no mapa. O uso do Google Maps está sujeito às práticas de privacidade do próprio serviço.</li>
+        <li>
+          <strong>Supabase:</strong>
+          utilizado para disponibilizar informações,
+          imagens, pontos turísticos e eventos.
+          Uma Supabase Edge Function também realiza
+          consultas a informações de locais.
+          A infraestrutura do serviço pode processar
+          registros técnicos de conexão para operação,
+          manutenção, segurança e prevenção de abusos,
+          conforme suas práticas aplicáveis.
+        </li>
+
+        <li>
+          <strong>Google Places API:</strong>
+          utilizada para consultar informações públicas
+          sobre estabelecimentos e atrações, como
+          avaliações e quantidade de avaliações.
+          As consultas realizadas pela Edge Function
+          utilizam o identificador público do local
+          (placeId), sem incluir nome ou e-mail do
+          usuário no corpo da solicitação.
+        </li>
+
+        <li>
+          <strong>Google Maps:</strong>
+          pode ser aberto quando o usuário escolhe
+          visualizar um local no mapa.
+          A navegação ocorre fora do Teresina Tour
+          e está sujeita às práticas de privacidade
+          do serviço utilizado.
+        </li>
       </ul>
-      <p>Consulte também as políticas dos fornecedores: <a href="https://supabase.com/privacy" target="_blank" rel="noopener noreferrer">Supabase</a> e <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google</a>.</p>
-      <h2>5. Finalidades</h2>
-      <p>As informações são utilizadas para apresentar conteúdos turísticos e eventos, carregar imagens e detalhes de locais, exibir avaliações públicas, permitir buscas e categorias, conservar favoritos no dispositivo e abrir locais no Google Maps quando solicitado.</p>
+
+      <p>
+        Para conhecer as práticas desses fornecedores,
+        consulte suas respectivas políticas:
+        <a
+          href="https://supabase.com/privacy"
+          target="_blank"
+          rel="noopener noreferrer"
+        >Política de Privacidade do Supabase</a>
+        e
+        <a
+          href="https://policies.google.com/privacy"
+          target="_blank"
+          rel="noopener noreferrer"
+        >Política de Privacidade do Google</a>.
+      </p>
+
+      <h2>5. Finalidades do tratamento</h2>
+
+      <p>
+        As informações e comunicações necessárias ao
+        funcionamento do Teresina Tour têm como finalidade
+        apresentar conteúdos turísticos, carregar imagens,
+        exibir detalhes de locais, consultar avaliações
+        públicas e disponibilizar informações sobre eventos.
+      </p>
+
+      <p>
+        O armazenamento local é utilizado para manter
+        os lugares favoritos escolhidos pelo usuário.
+      </p>
+
+      <p>
+        Os fornecedores externos podem tratar dados
+        técnicos de conexão para manter seus serviços
+        disponíveis, identificar falhas e proteger
+        sua infraestrutura contra acessos indevidos
+        ou abusivos, conforme suas políticas.
+      </p>
+
       <h2>6. Compartilhamento e retenção</h2>
-      <p>As solicitações necessárias ao funcionamento do aplicativo são transmitidas aos serviços externos mencionados nesta política. Esses fornecedores podem tratar e conservar dados técnicos conforme suas respectivas políticas.</p>
-      <p>Os favoritos permanecem no armazenamento local do dispositivo até serem removidos pelo usuário ou excluídos pelos mecanismos disponíveis no aparelho.</p>
-      <h2>7. Segurança</h2>
-      <p>O Teresina Tour utiliza serviços externos para disponibilizar informações. Embora sejam adotadas práticas técnicas compatíveis com a arquitetura do aplicativo, nenhum sistema conectado à internet é completamente isento de riscos.</p>
-      <h2>8. Crianças e adolescentes</h2>
-      <p>O aplicativo disponibiliza conteúdo turístico e cultural de caráter informativo e não exige criação de conta para acessar essas informações. As práticas descritas nesta política também se aplicam ao uso por crianças e adolescentes.</p>
-      <h2>9. Alterações nesta política</h2>
-      <p>Esta política poderá ser atualizada caso as funcionalidades, integrações ou práticas de tratamento de informações sejam modificadas. A versão mais recente estará disponível nesta página, com a data da última atualização.</p>
-      <h2>10. Contato</h2>
+
+      <p>
+        As solicitações necessárias ao funcionamento
+        do aplicativo são transmitidas aos serviços
+        externos mencionados nesta política.
+      </p>
+
+      <p>
+        Esses fornecedores podem processar e conservar
+        dados técnicos de acordo com suas próprias
+        políticas, configurações e prazos de retenção.
+        O Teresina Tour não controla integralmente
+        os registros mantidos pela infraestrutura
+        desses serviços.
+      </p>
+
+      <p>
+        Os favoritos permanecem armazenados localmente
+        no dispositivo até serem removidos pelo usuário
+        ou excluídos pelos mecanismos disponíveis
+        no aparelho.
+      </p>
+
+      <h2>7. Segurança das informações</h2>
+
+      <p>
+        O Teresina Tour utiliza conexões HTTPS
+        para se comunicar com os serviços de dados
+        e informações necessários ao seu funcionamento,
+        protegendo os dados durante a transmissão.
+      </p>
+
+      <p>
+        Apesar dessas medidas, nenhum sistema conectado
+        à internet está completamente livre de riscos.
+        Os serviços externos também possuem suas próprias
+        responsabilidades e práticas de segurança.
+      </p>
+
+      <h2>8. Direitos e solicitações de privacidade</h2>
+
+      <p>
+        O usuário pode solicitar informações sobre
+        o tratamento de seus dados pessoais e, quando
+        aplicável, solicitar acesso, correção ou exclusão
+        de dados, conforme a legislação de proteção
+        de dados vigente.
+      </p>
+
+      <p>
+        Para encaminhar uma solicitação, entre em contato
+        pelo e-mail afjcode@gmail.com, descrevendo
+        o pedido. A solicitação será analisada
+        considerando os dados efetivamente tratados
+        e os limites técnicos e legais aplicáveis.
+      </p>
+
+      <p>
+        Como o aplicativo não possui contas de usuário,
+        não existe uma função de exclusão de conta.
+        Os favoritos podem ser removidos diretamente
+        pelo aplicativo ou pelos recursos do dispositivo.
+      </p>
+
+      <h2>9. Crianças e adolescentes</h2>
+
+      <p>
+        O aplicativo disponibiliza conteúdo turístico
+        e cultural de caráter informativo e não exige
+        criação de conta para acessar suas funcionalidades
+        principais.
+      </p>
+
+      <p>
+        As práticas descritas nesta política também
+        se aplicam ao uso por crianças e adolescentes,
+        observadas as exigências legais pertinentes.
+      </p>
+
+      <h2>10. Alterações nesta política</h2>
+
+      <p>
+        Esta Política de Privacidade poderá ser atualizada
+        caso ocorram mudanças nas funcionalidades,
+        integrações ou práticas de tratamento
+        de informações do Teresina Tour.
+      </p>
+
+      <p>
+        A versão mais recente estará disponível
+        nesta página, acompanhada da data
+        da última atualização.
+      </p>
+
+      <h2>11. Contato</h2>
+
       <div class="contact">
         <strong>Teresina Tour</strong><br />
-        Dúvidas ou solicitações sobre privacidade:<br />
-        <a href="mailto:afjcode@gmail.com">afjcode@gmail.com</a>
+        Projeto acadêmico de extensão universitária<br />
+        Dúvidas, suporte ou solicitações de privacidade:<br />
+        <a href="mailto:afjcode@gmail.com">
+          afjcode@gmail.com
+        </a>
       </div>
     </article>
   </main>
-  <footer>© 2026 Teresina Tour · Projeto de extensão universitária</footer>
+
+  <footer>
+    © 2026 Teresina Tour · Projeto de extensão universitária
+  </footer>
 </body>
 </html>
