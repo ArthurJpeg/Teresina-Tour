@@ -35,6 +35,7 @@ export default function SobreScreen() {
 
   return (
     <View style={styles.screen}>
+      {/* Cabeçalho fixo */}
       <SafeAreaView
         edges={['top']}
         style={styles.safeArea}
@@ -57,7 +58,17 @@ export default function SobreScreen() {
             Sobre o aplicativo
           </Text>
         </View>
+      </SafeAreaView>
 
+      {/* Conteúdo com rolagem */}
+      <ScrollView
+        style={styles.scrollView}
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+        bounces={false}
+        overScrollMode="never"
+      >
+        {/* Apresentação do aplicativo */}
         <View style={styles.brandArea}>
           <View style={styles.brandIcon}>
             <Ionicons
@@ -75,148 +86,144 @@ export default function SobreScreen() {
             Conheça e explore Teresina
           </Text>
         </View>
-      </SafeAreaView>
 
-      <ScrollView
-        style={styles.scrollView}
-        contentContainerStyle={styles.content}
-        showsVerticalScrollIndicator={false}
-      >
-        <View style={styles.card}>
-          <View style={styles.cardHeading}>
-            <Ionicons
-              name="information-circle-outline"
-              size={23}
-              color="#B38F00"
-            />
+        <View style={styles.content}>
+          <View style={styles.card}>
+            <View style={styles.cardHeading}>
+              <Ionicons
+                name="information-circle-outline"
+                size={23}
+                color="#B38F00"
+              />
 
-            <Text style={styles.cardTitle}>
-              Sobre o projeto
-            </Text>
-          </View>
-
-          <Text style={styles.description}>
-            O Teresina Tour é um aplicativo desenvolvido
-            para facilitar a descoberta dos pontos
-            turísticos, espaços culturais e eventos
-            da cidade de Teresina, no Piauí.
-          </Text>
-
-          <Text style={styles.description}>
-            Nossa proposta é valorizar o turismo local
-            e reunir informações úteis para moradores
-            e visitantes.
-          </Text>
-        </View>
-
-        <View style={styles.card}>
-          <View style={styles.cardHeading}>
-            <Ionicons
-              name="school-outline"
-              size={23}
-              color="#B38F00"
-            />
-
-            <Text style={styles.cardTitle}>
-              Projeto acadêmico
-            </Text>
-          </View>
-
-          <Text style={styles.description}>
-            O Teresina Tour foi desenvolvido como
-            projeto de extensão universitária do
-            curso de Ciência da Computação da
-            UNINASSAU.
-          </Text>
-
-          <Text style={styles.note}>
-            Esta é uma iniciativa acadêmica
-            independente, sem vínculo oficial
-            com órgãos governamentais.
-          </Text>
-        </View>
-
-        <View style={styles.card}>
-          <View style={styles.cardHeading}>
-            <Ionicons
-              name="shield-checkmark-outline"
-              size={23}
-              color="#B38F00"
-            />
-
-            <Text style={styles.cardTitle}>
-              Privacidade e suporte
-            </Text>
-          </View>
-
-          <TouchableOpacity
-            style={styles.linkRow}
-            activeOpacity={0.7}
-            onPress={() => openLink(PRIVACY_URL)}
-            accessibilityRole="link"
-            accessibilityLabel="Abrir Política de Privacidade"
-          >
-            <Ionicons
-              name="document-text-outline"
-              size={23}
-              color="#444444"
-            />
-
-            <View style={styles.linkTextArea}>
-              <Text style={styles.linkTitle}>
-                Política de Privacidade
-              </Text>
-
-              <Text style={styles.linkDescription}>
-                Saiba como tratamos informações e dados.
+              <Text style={styles.cardTitle}>
+                Sobre o projeto
               </Text>
             </View>
 
-            <Ionicons
-              name="open-outline"
-              size={19}
-              color="#777777"
-            />
-          </TouchableOpacity>
+            <Text style={styles.description}>
+              O Teresina Tour é um aplicativo desenvolvido
+              para facilitar a descoberta dos pontos
+              turísticos, espaços culturais e eventos
+              da cidade de Teresina, no Piauí.
+            </Text>
 
-          <View style={styles.separator} />
+            <Text style={styles.description}>
+              Nossa proposta é valorizar o turismo local
+              e reunir informações úteis para moradores
+              e visitantes.
+            </Text>
+          </View>
 
-          <TouchableOpacity
-            style={styles.linkRow}
-            activeOpacity={0.7}
-            onPress={() =>
-              openLink(`mailto:${SUPPORT_EMAIL}`)
-            }
-            accessibilityRole="button"
-            accessibilityLabel="Enviar e-mail para suporte"
-          >
-            <Ionicons
-              name="mail-outline"
-              size={23}
-              color="#444444"
-            />
+          <View style={styles.card}>
+            <View style={styles.cardHeading}>
+              <Ionicons
+                name="school-outline"
+                size={23}
+                color="#B38F00"
+              />
 
-            <View style={styles.linkTextArea}>
-              <Text style={styles.linkTitle}>
-                Entre em contato
-              </Text>
-
-              <Text style={styles.linkDescription}>
-                {SUPPORT_EMAIL}
+              <Text style={styles.cardTitle}>
+                Projeto acadêmico
               </Text>
             </View>
 
-            <Ionicons
-              name="chevron-forward"
-              size={19}
-              color="#777777"
-            />
-          </TouchableOpacity>
-        </View>
+            <Text style={styles.description}>
+              O Teresina Tour foi desenvolvido como
+              projeto de extensão universitária do
+              curso de Ciência da Computação da
+              UNINASSAU.
+            </Text>
 
-        <Text style={styles.version}>
-          Teresina Tour • Versão {version}
-        </Text>
+            <Text style={styles.note}>
+              Esta é uma iniciativa acadêmica
+              independente, sem vínculo oficial
+              com órgãos governamentais.
+            </Text>
+          </View>
+
+          <View style={styles.card}>
+            <View style={styles.cardHeading}>
+              <Ionicons
+                name="shield-checkmark-outline"
+                size={23}
+                color="#B38F00"
+              />
+
+              <Text style={styles.cardTitle}>
+                Privacidade e suporte
+              </Text>
+            </View>
+
+            <TouchableOpacity
+              style={styles.linkRow}
+              activeOpacity={0.7}
+              onPress={() => openLink(PRIVACY_URL)}
+              accessibilityRole="link"
+              accessibilityLabel="Abrir Política de Privacidade"
+            >
+              <Ionicons
+                name="document-text-outline"
+                size={23}
+                color="#444444"
+              />
+
+              <View style={styles.linkTextArea}>
+                <Text style={styles.linkTitle}>
+                  Política de Privacidade
+                </Text>
+
+                <Text style={styles.linkDescription}>
+                  Saiba como tratamos informações e dados.
+                </Text>
+              </View>
+
+              <Ionicons
+                name="open-outline"
+                size={19}
+                color="#777777"
+              />
+            </TouchableOpacity>
+
+            <View style={styles.separator} />
+
+            <TouchableOpacity
+              style={styles.linkRow}
+              activeOpacity={0.7}
+              onPress={() =>
+                openLink(`mailto:${SUPPORT_EMAIL}`)
+              }
+              accessibilityRole="button"
+              accessibilityLabel="Enviar e-mail para suporte"
+            >
+              <Ionicons
+                name="mail-outline"
+                size={23}
+                color="#444444"
+              />
+
+              <View style={styles.linkTextArea}>
+                <Text style={styles.linkTitle}>
+                  Entre em contato
+                </Text>
+
+                <Text style={styles.linkDescription}>
+                  {SUPPORT_EMAIL}
+                </Text>
+              </View>
+
+              <Ionicons
+                name="chevron-forward"
+                size={19}
+                color="#777777"
+              />
+            </TouchableOpacity>
+          </View>
+
+          <Text style={styles.version}>
+            Teresina Tour • Versão {version}
+          </Text>
+        </View>
       </ScrollView>
     </View>
   );
@@ -259,6 +266,7 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 26,
     paddingHorizontal: 20,
+    backgroundColor: '#FFD700',
   },
 
   brandIcon: {
@@ -285,6 +293,10 @@ const styles = StyleSheet.create({
 
   scrollView: {
     flex: 1,
+  },
+
+  scrollContent: {
+    paddingBottom: 0,
   },
 
   content: {
