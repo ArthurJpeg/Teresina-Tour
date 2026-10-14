@@ -1,3 +1,4 @@
+
 import React, { useCallback, useRef } from 'react';
 import {
   View,
@@ -44,14 +45,6 @@ export default function HomeScreen() {
     []
   );
 
-  /*
-   * IMPORTANTE:
-   * O conteúdo do cabeçalho da lista é passado como elemento JSX
-   * estável, e não como uma função criada novamente a cada render.
-   *
-   * Isso evita que o TextInput seja desmontado/remontado durante
-   * a digitação e, consequentemente, evita que o teclado feche.
-   */
   const listHeader = (
     <View style={styles.discoveryArea}>
       <View style={styles.searchContainer}>
@@ -93,26 +86,21 @@ export default function HomeScreen() {
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={styles.categoriesContent}
         renderItem={({ item }) => {
-          const selected =
-            selectedCategory === item.id;
+          const selected = selectedCategory === item.id;
 
           return (
             <TouchableOpacity
               style={[
                 styles.categoryButton,
-                selected &&
-                  styles.categoryButtonSelected,
+                selected && styles.categoryButtonSelected,
               ]}
               activeOpacity={0.8}
-              onPress={() =>
-                handleCategoryChange(item.id)
-              }
+              onPress={() => handleCategoryChange(item.id)}
             >
               <Text
                 style={[
                   styles.categoryText,
-                  selected &&
-                    styles.categoryTextSelected,
+                  selected && styles.categoryTextSelected,
                 ]}
               >
                 {item.name}
@@ -141,7 +129,7 @@ export default function HomeScreen() {
   if (loading) {
     return (
       <View style={styles.screen}>
-        <Header />
+        <Header showInfoButton />
 
         <View style={styles.centerState}>
           <ActivityIndicator
@@ -164,7 +152,7 @@ export default function HomeScreen() {
   if (error) {
     return (
       <View style={styles.screen}>
-        <Header />
+        <Header showInfoButton />
 
         <View style={styles.centerState}>
           <View style={styles.stateIcon}>
@@ -189,8 +177,7 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.screen}>
-      {/* Fica fixo durante a rolagem e o pull-to-refresh */}
-      <Header />
+      <Header showInfoButton />
 
       <FlatList
         ref={listRef}
@@ -202,13 +189,7 @@ export default function HomeScreen() {
             onPress={handlePointPress}
           />
         )}
-
-        /*
-         * Passamos o ELEMENTO, não a função.
-         * Isso é importante para preservar o foco do TextInput.
-         */
         ListHeaderComponent={listHeader}
-
         ListEmptyComponent={
           <View style={styles.emptyState}>
             <View style={styles.stateIcon}>
@@ -229,18 +210,10 @@ export default function HomeScreen() {
             </Text>
           </View>
         }
-
         refreshing={refreshing}
         onRefresh={refresh}
-
         showsVerticalScrollIndicator={false}
-
-        /*
-         * Impede que interações com a lista fechem
-         * desnecessariamente o teclado.
-         */
         keyboardShouldPersistTaps="handled"
-
         contentContainerStyle={styles.listContent}
       />
     </View>
@@ -264,16 +237,11 @@ const styles = StyleSheet.create({
   searchContainer: {
     height: 52,
     marginHorizontal: 18,
-
     paddingHorizontal: 15,
-
     flexDirection: 'row',
     alignItems: 'center',
-
     backgroundColor: '#FFFFFF',
-
     borderRadius: 16,
-
     borderWidth: 1,
     borderColor: '#E8E8E8',
   },
@@ -282,7 +250,6 @@ const styles = StyleSheet.create({
     flex: 1,
     height: '100%',
     marginLeft: 10,
-
     fontSize: 15,
     color: '#111111',
   },
@@ -300,17 +267,12 @@ const styles = StyleSheet.create({
 
   categoryButton: {
     minHeight: 38,
-
     paddingHorizontal: 16,
     paddingVertical: 9,
-
     justifyContent: 'center',
     alignItems: 'center',
-
     borderRadius: 20,
-
     backgroundColor: '#FFFFFF',
-
     borderWidth: 1,
     borderColor: '#E6E6E6',
   },
@@ -367,34 +329,26 @@ const styles = StyleSheet.create({
     width: 68,
     height: 68,
     borderRadius: 34,
-
     alignItems: 'center',
     justifyContent: 'center',
-
     backgroundColor: '#FFF4B3',
-
     marginBottom: 18,
   },
 
   stateTitle: {
     marginTop: 16,
-
     fontSize: 18,
     fontWeight: '700',
     color: '#222222',
-
     textAlign: 'center',
   },
 
   stateDescription: {
     marginTop: 6,
-
     maxWidth: 280,
-
     fontSize: 14,
     lineHeight: 20,
     color: '#777777',
-
     textAlign: 'center',
   },
 });

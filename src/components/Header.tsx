@@ -1,28 +1,66 @@
+
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 
 interface HeaderProps {
   title?: string;
   subtitle?: string;
+  showInfoButton?: boolean;
 }
 
-const Header: React.FC<HeaderProps> = React.memo(({
+function Header({
   title = 'Teresina Tour',
   subtitle = 'Descubra experiências pela cidade',
-}) => {
+  showInfoButton = false,
+}: HeaderProps) {
+  const router = useRouter();
+
   return (
     <SafeAreaView edges={['top']} style={styles.safeArea}>
       <View style={styles.header}>
-        <View>
-          <Text style={styles.eyebrow}>BEM-VINDO AO</Text>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.subtitle}>{subtitle}</Text>
+        <View style={styles.textContainer}>
+          <Text style={styles.eyebrow}>
+            BEM-VINDO AO
+          </Text>
+
+          <Text style={styles.title}>
+            {title}
+          </Text>
+
+          <Text style={styles.subtitle}>
+            {subtitle}
+          </Text>
         </View>
+
+        {showInfoButton && (
+          <TouchableOpacity
+            style={styles.infoButton}
+            activeOpacity={0.75}
+            onPress={() => router.push('/sobre')}
+            accessibilityRole="button"
+            accessibilityLabel="Sobre o Teresina Tour"
+          >
+            <Ionicons
+              name="information-circle-outline"
+              size={28}
+              color="#111111"
+            />
+          </TouchableOpacity>
+        )}
       </View>
     </SafeAreaView>
   );
-});
+}
+
+export default React.memo(Header);
 
 const styles = StyleSheet.create({
   safeArea: {
@@ -34,6 +72,14 @@ const styles = StyleSheet.create({
     paddingTop: 14,
     paddingBottom: 22,
     backgroundColor: '#FFD700',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+
+  textContainer: {
+    flex: 1,
+    paddingRight: 10,
   },
 
   eyebrow: {
@@ -56,6 +102,13 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: 'rgba(0, 0, 0, 0.65)',
   },
-});
 
-export default Header;
+  infoButton: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: '#FFFFFF',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
